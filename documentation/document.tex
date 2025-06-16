@@ -1,0 +1,191 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{xepersian}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{color}
+
+% Colors
+\definecolor{titlepagecolor}{cmyk}{0.75,0.68,0.67,0.90} % Cover background
+\definecolor{CustomAccent}{HTML}{2BAB8C} % Accent color for English text
+%\definecolor{CustomBackground}{HTML}{1C1C1C} % Background for content pages
+\definecolor{CustomBackground}{cmyk}{0.75,0.68,0.67,0.90}% Background for content pages
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{codebg}{cmyk}{0.75,0.68,0.67,0.90} % same as CustomBackground
+\definecolor{accent}{HTML}{2BAB8C} % same as CustomAccent
+\definecolor{codegray}{rgb}{0.8,0.8,0.8}
+\definecolor{codegreen}{rgb}{0.4,1,0.4}
+\definecolor{codepurple}{rgb}{1,0.6,1}
+\definecolor{keywordcolor}{rgb}{1,0.3,0.6}
+
+\lstdefinestyle{darkstyle}{
+	backgroundcolor=\color{codebg},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{keywordcolor},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize\color{white},
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=10pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=4,
+	frame=single,
+	rulecolor=\color{accent}
+}
+
+\lstset{style=darkstyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+% Persian and Latin fonts
+\settextfont{Vazir.ttf}[BoldFont = Vazir-Bold.ttf, Path = fonts/]
+\setlatintextfont{Times New Roman}
+
+% Line spacing
+\renewcommand{\baselinestretch}{1.2}
+\renewcommand{\thesection}{\arabic{section})}
+
+\color{white}
+
+
+% Homework number
+\newcommand{\HomeworkNumber}{1}
+
+% Cover-only settings
+\pagenumbering{gobble}
+
+% ---------- COVER PAGE ----------
+\begin{document}
+	\begin{latin}
+		\begin{titlepage}
+			\newgeometry{top=1in,bottom=1in,right=0in,left=0in}
+			\thispagestyle{empty}
+			\pagecolor{titlepagecolor}
+			\color{white}
+			\begin{center}
+				\vspace*{\stretch{1}}
+				
+				{\fontsize{48}{0}\bfseries\selectfont \color{CustomAccent} INTRODUCTION TO COMPUTER VISION}
+				
+				\vskip 1.5\baselineskip
+				{\fontsize{24}{0}\selectfont PROJECT DOCUMENTATION}
+				
+				\vspace*{\stretch{2}}
+				\adjincludegraphics[width=1\paperwidth]{assets/cover2.png}
+				
+				\vspace*{\stretch{2}}
+				{\fontsize{20}{0}\selectfont \color{CustomAccent}
+					Ferdowsi University of Mashhad \\
+					Department of Computer Engineering
+				}
+				
+				\vskip 1.5\baselineskip
+				{\Large SPRING 2025}
+				
+				\vspace*{\stretch{1}}
+			\end{center}
+		\end{titlepage}
+	\end{latin}
+	
+	% ---------- RESET PAGE SETTINGS ----------
+	\clearpage
+	\nopagecolor
+	\pagecolor{CustomBackground}
+	\color{white}
+	\newgeometry{top=1in,bottom=1in,left=1in,right=1in}
+	\pagenumbering{arabic}
+	
+	% ---------- HEADER (PERSIAN) ----------
+	\hrule \medskip
+	\begin{minipage}{0.295\textwidth}
+		\raggedleft \color{CustomAccent}
+		مبانی بینایی کامپیوتر\\
+		دانشگاه فردوسی مشهد\\
+		گروه مهندسی کامپیوتر
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\centering 
+		\includegraphics[scale=0.3]{assets/fum-logo.png}
+	\end{minipage}
+	\begin{minipage}{0.295\textwidth} \color{CustomAccent}
+		داکیومنت پروژه \\
+		دکتر طاهری نیا \\
+		بهار 1404
+	\end{minipage}
+	\medskip\hrule
+	\bigskip	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{|l|l|}
+			\hline
+			\textbf{نام و نام خانوادگی} & \textbf{شماره دانشجویی} \\
+			\hline
+			امیرحسین افشار & 4012262196 \\
+			\hline
+		\end{tabular}
+	\end{table}
+	
+	
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.35]{assets/template.png}
+		\caption*{\textcolor{CustomAccent}{k-means}}
+	\end{figure}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\pagebreak
+	
+	در ابتدا، به کمک کتابخانه 
+	$cv2$
+	تابع زیر را برای دریافت فیچرها تکمیل کردیم. 
+	
+	\begin{latin}
+		\begin{lstlisting}[language=Python, caption={extract feature function}]
+			def extract_features(image_path)
+			# input is an image and the ouput is an array of features.
+		\end{lstlisting}
+	\end{latin}
+	
+	
+
+
+	\begin{figure}[ht]
+		\centering
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{assets/template.png}
+			\caption{\textcolor{CustomAccent}{another caption}}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{assets/template.png}
+			\caption{\textcolor{CustomAccent}{caption new}}
+		\end{minipage}
+		\vspace{1em}
+	\end{figure}
+\end{document}
