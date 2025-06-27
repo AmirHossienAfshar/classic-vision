@@ -148,14 +148,133 @@
 		\end{tabular}
 	\end{table}
 	
+\hline
+%	\begin{figure}[h]
+	%		\centering
+	%		\includegraphics[scale=0.35]{assets/template.png}
+	%		\caption*{\textcolor{CustomAccent}{k-means}}
+	%	\end{figure}
+
 	
-	
-	\begin{figure}[h]
+	\section{سوال اول: معمای داوینچی}
+	 در ابتدا برای حل پازل، عملیات denoising را برای تصویر
+$processed\_img\_part\_1.jpg$
+انجام شد. بدین منظور، از هیستوگرام تصویر بهره گرفته شده است \textsuperscript{[1]} ؛ هیستوگرام تصویر با سطوح خاکستری، بر اساس نرمال کردن میزان پیکسل های با شدت بین 0 تا 255 ساخته می شود تا شکل 
+function distribution probability
+بدست آید.
+ پلات زیر، بیانگر هیستوگرام برای تصویر نویزی شماره 1 است:
+
+\begin{figure}[h]
 		\centering
-		\includegraphics[scale=0.35]{assets/template.png}
-		\caption*{\textcolor{CustomAccent}{k-means}}
+		\includegraphics[scale=0.35]{assets/plot1.png}
+		\caption{\textcolor{CustomAccent}{پلات هیستوگرام تصویر نویزی شماره 1}}
 	\end{figure}
 	
+	این شکل، بیان می کند که تعداد پیکسل ها با مقدار نزدیک به صفر و مقدار نزدیک به 255 بسیار زیاد است. همچنین هیستوگرام احتمال قابل انتظار برای تصاویر نویزی با نوع نویز نمک فلفل به شکل زیر است:
+	
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.40]{assets/plot2.png}
+	\caption{\textcolor{CustomAccent}{هیستوگرام قابل انتظار برای تصاویر نویزی نمک و فلفل}}
+\end{figure}
+
+\vfill
+\hline
+\begin{LTR}
+	\begin{latin}
+		\begin{center}
+			\begin{minipage}{0.9\linewidth}
+				\small % or \footnotesize
+				\textsuperscript{[1]} Asoke Nath: Image Denoising Algorithms: A Comparative Study of Different Filtration Approaches Used in Image Restoration
+			\end{minipage}
+		\end{center}
+	\end{latin}
+\end{LTR}
+
+با مقایسه شکل 1 و 2 می توان نتیجه گرفت که نویز تصویر شماره 1 از نوع نمک و فلفل می باشد. بنابراین، برای denoise کردن تصویر، بهترین گزینه، استفاده از فیلتر median می باشد. 
+شایان ذکر است که در عملیات denoise کردن تصویر برای اطمینان بیشتر از نوع نویز، از انواع فیلترها استفاده شد که به شرح زیر هستند:
+\begin{latin}
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{|c|l|l|}
+		\hline
+		\textbf{Category} & \textbf{Filter Name} & \textbf{Function} \\
+		\hline
+		Smoothing Filters  & Box Filter              & \texttt{denoise\_box\_filter} \\
+		& Gaussian Filter         & \texttt{denoise\_gaussian\_filter} \\
+		\hline
+		Statistical Filters & Median Filter           & \texttt{denoise\_median\_filter} \\
+		& Max Filter              & \texttt{denoise\_max\_filter} \\
+		& Min Filter              & \texttt{denoise\_min\_filter} \\
+		\hline
+		Advanced Filters   & Bilateral Filter        & \texttt{denoise\_bilateral\_filter} \\
+		& Non-Local Means         & \texttt{denoise\_nl\_means} \\
+		& Wavelet Filter          & \texttt{denoise\_wavelet\_filter} \\
+		& Total Variation Filter  & \texttt{denoise\_total\_variation} \\
+		\hline
+	\end{tabular}
+\end{table}
+\end{latin}
+
+همانطور که از شکل 1 انتظار می رفت، بهترین عملکرد خروجی با استفاده از فیلتر میانه یا همان median بدست می آید. در نهایت، برای نهایی کردن بهترین خروجی با استفاده از فیلتر میانه، دو روش پیگیری شد:
+\begin{enumerate}
+	\item 
+	استفاده از چند مرحله فیلتر median با ابعاد یکسان
+	\item 
+	استفاده از یک فیلتر median با کرنل بزرگتر
+\end{enumerate}
+روش اول، به طور کلی برای حفظ جزئیات تصویر مناسب تر است؛ زیرا هرگونه کرنل بزرگ  با ریسک از دست دادن جزئیات همراه است. از طرفی، ممکن است که همگرا شدن تصویر پس از اعمال چند بار فیلتر میانه، به کندی پیش رود و حتی برخی نویز ها در تصویر باقی بمانند که این مشکل، در روش دوم وجود ندارد. 
+
+در نهایت، با توجه به مسئله که تنها نیاز است یک متن از تصویر استخراج شود (و حفظ سایر جزئیات دارای اهمیت کمتری است،) از روش دوم استفاده شد.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.40]{assets/plot4.png}
+	\caption{\textcolor{CustomAccent}{شکل نهایی تصویر denoise شده}}
+\end{figure}
+
+\pagebreak
+
+همچنین شایان ذکر است که برای درک بهتر نویز، از حوزه ی فرکانس نیز کمک گرفته شد
+ \textsuperscript{[1]}  که بتوان نوع نویز را حدس زد و در نهایت با استفاده از فیلتر های notch و یا band-pass و یا band-reject از نویز تصویر کاست. شکل سوم بیانگر این موضوع است.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.40]{assets/plot3.png}
+	\caption{\textcolor{CustomAccent}{تصویر شماره 1 در حوزه فرکانس}}
+\end{figure}
+
+با توجه به magnitude تصویر در حوزه فرکانس، نمی توان نویز خاصی را قائل شد که نهایتا، همان فیلتر میانه که از هیستوگرام تصویر درک شده بود، استفاده شد.
+
+
+\vfill
+\hline
+\begin{LTR}
+	\begin{latin}
+		\begin{center}
+			\begin{minipage}{0.9\linewidth}
+				\small % or \footnotesize
+				\textsuperscript{[1]} Digital Image Processing By Gonzalez 2nd Edition 2002, chapter 4.2
+			\end{minipage}
+		\end{center}
+	\end{latin}
+\end{LTR}
+%
+%تبصره: برای کاهش حجم فایل ipynb برای پلاک کردن تصاویر، از figure هایی با ابعاد کوچک استفاده شده است که به ناچار تصاویر را sample down می کند؛ در عین حال، کلیت حل مسئله همچنان صحیح است. همچنین در تابع 
+%
+%\begin{latin}
+%	\begin{lstlisting}[language=Python, caption={extract feature function}]
+%def plote_images(images: list[np.ndarray], titles: list[str] = None, cmap: str = 'gray', figsize: tuple = (10, 5))
+%...
+%	\end{lstlisting}
+%\end{latin}
+%میتوان با انتخاب figsize بزرگتر، عملکرد هر کدام از فیلتر ها را به شکل واضح تری دید.
+
+
+
+
+
+
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\pagebreak
 	
