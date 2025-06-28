@@ -10,6 +10,9 @@
 \usepackage{multicol}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{hyperref}
+\usepackage{bidi} 
+\usepackage{enumitem}
 
 % Colors
 \definecolor{titlepagecolor}{cmyk}{0.75,0.68,0.67,0.90} % Cover background
@@ -193,9 +196,10 @@ function distribution probability
 
 با مقایسه شکل 1 و 2 می توان نتیجه گرفت که نویز تصویر شماره 1 از نوع نمک و فلفل می باشد. بنابراین، برای denoise کردن تصویر، بهترین گزینه، استفاده از فیلتر median می باشد. 
 شایان ذکر است که در عملیات denoise کردن تصویر برای اطمینان بیشتر از نوع نویز، از انواع فیلترها استفاده شد که به شرح زیر هستند:
-\begin{latin}
+
 \begin{table}[ht]
 	\centering
+	\begin{latin}
 	\begin{tabular}{|c|l|l|}
 		\hline
 		\textbf{Category} & \textbf{Filter Name} & \textbf{Function} \\
@@ -213,8 +217,10 @@ function distribution probability
 		& Total Variation Filter  & \texttt{denoise\_total\_variation} \\
 		\hline
 	\end{tabular}
+	\end{latin}
+	\caption{انواع فیلتر ها و توابع denoising به کار گرفته شده}
 \end{table}
-\end{latin}
+
 
 همانطور که از شکل 1 انتظار می رفت، بهترین عملکرد خروجی با استفاده از فیلتر میانه یا همان median بدست می آید. در نهایت، برای نهایی کردن بهترین خروجی با استفاده از فیلتر میانه، دو روش پیگیری شد:
 \begin{enumerate}
@@ -270,6 +276,121 @@ function distribution probability
 %\end{latin}
 %میتوان با انتخاب figsize بزرگتر، عملکرد هر کدام از فیلتر ها را به شکل واضح تری دید.
 
+\pagebreak
+برای بخش سوم از پازل، باید تصویر اصلی را از 5 زیر تصویر reconstruct می کردیم. بدین منظور، تصاویر در ابتدا و در کنار یکدیگر plot شده اند:
+%
+%\begin{itemize}
+%	\begin{latin}
+%		\item 
+%		processed\_img\_part\_3\_Level\_0.jpg
+%		\item 
+%		processed\_img\_part\_3\_Level\_1.jpg
+%		\item 
+%		processed\_img\_part\_3\_Level\_2.jpg
+%		\item 
+%		processed\_img\_part\_3\_Level\_3.jpg
+%		\item 
+%		processed\_img\_part\_3\_Level\_4.jpg
+%	\end{latin}
+%	
+%	[(1796, 1201), (898, 601), (449, 301), (225, 151), (113, 76)]
+%\end{itemize}}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{assets/plot5.png}
+	\caption{\textcolor{CustomAccent}{زیرتصاویر بخش سوم پازل}}
+\end{figure}
+
+
+همچنین ابعاد هر کدام از تصاویر در جدول زیر بیان شده است:
+
+\begin{table}[h!]
+	\centering
+	\begin{latin}
+	\begin{tabular}{|l|c|c|}
+		\hline
+		\textbf{Image File} & \textbf{Width (px)} & \textbf{Height (px)} \\
+		\hline
+		processed\_img\_part\_3\_Level\_0.jpg & 1796 & 1201 \\
+		processed\_img\_part\_3\_Level\_1.jpg & 898  & 601  \\
+		processed\_img\_part\_3\_Level\_2.jpg & 449  & 301  \\
+		processed\_img\_part\_3\_Level\_3.jpg & 225  & 151  \\
+		processed\_img\_part\_3\_Level\_4.jpg & 113  & 76   \\
+		\hline
+	\end{tabular}
+	\end{latin}
+	\caption{ابعاد زیر تصاویر در بخش سوم پازل}
+\end{table}
+
+با توجه به جدول شماره 2 که بیانگر ابعاد پازل است، میتوان متوجه شد که در هر مرحله با تقریب هم طول و هم عرض تصویر نصف می شود. این موضوع، وجود نوعی pyramid را در ذهن تداعی می کند \textsuperscript{[1]}.
+ این موضوع، در زیربخش سوم فصل هفتم کتاب گونزالس
+ \textsuperscript{[2]}
+  به این شکل آمده است:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{assets/pyramids.png}
+	\caption{\textcolor{CustomAccent}{انواع pyramid ها: کتاب گونزالس، زیربخش سوم فصل هفتم}}
+\end{figure}
+
+
+
+
+\vfill
+\hline
+\begin{LTR}
+	\begin{latin}
+		\begin{center}
+			\begin{minipage}{0.9\linewidth}
+				\small % or \footnotesize
+				\textsuperscript{[1]} medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \\
+				\textsuperscript{[2]} Digital Image Processing By Gonzalez 2nd Edition 2002, chapter 7.3
+			\end{minipage}
+		\end{center}
+	\end{latin}
+\end{LTR}
+ 
+
+\pagebreak
+
+برای درک بهتر هرم، هیستوگرام احتمال برای هر کدام از زیر تصاویر رسم شده است:
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{assets/plot6.png}
+	\caption{\textcolor{CustomAccent}{هیستوگرام در هرم}}
+\end{figure}
+
+نمودار هیستوگرام نرمال‌شده‌ی هرم، توزیع آماری مقدارهای باقیمانده در هر سطح از هرم را نمایش می‌دهد. در فرآیند ساخت هرم، هر تصویر در یک سطح با نسخه‌ی بزرگ‌ نمایی ‌شده ‌ی تصویر سطح بعدی کم می‌شود، و نتیجه این اختلاف، تصویر باقیمانده‌ای است که تنها حاوی اطلاعات لبه‌ ها، جزییات کوچک است. برای نمایش بهتر این اطلاعات، از یک آفست استفاده شده و همچنین نرمال سازی انجام شده است. در تایید این موضوع، از تبدیل به حوزه فوریه و نمایش فاز هر کدام از زیر تصاویر نیز استفاده شده است:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{assets/plot7.png}
+	\caption{\textcolor{CustomAccent}{هیستوگرام در هرم}}
+\end{figure}
+ همانطور که مشخص است، لبه های کوچک در سطوح بالا، دارای فاز یکنواخت تری هستند و هرچه به لایه های پایین تر می رویم، این یکنواختی کمتر می شود و تغییرات فرکانس وضوح می یابند.
+
+با دقت به این هیستوگرام، (و همچنین زیرتصاویر ارائه شده در شکل پنجم) میتوان نتیجه گرفت که هرم از نوع لاپلاسی است؛ هر مرحله از downsample شدن تصویر و محاسبه اختلاف با لایه قبلی محاسبه می شود که برای ساختن تصویر اصلی، کافیست معکوس این کار را انجام دهیم.
+
+
+\pagebreak
+
+برای درست کردن تصویر، در ابتدا تلاش شد که با طی کردن فرایند به شکل معکوس، تصویر اصلی ساخته شود، اما تصویر خروجی شامل کیفیت مناسب نبود. بدین منظور، از تابع resize از کتابخانه cv2 استفاده شد که به صورت خطی تصویر را تغییر سایز می دهد. همچنین، برای بهبود نهایی، مقادیر grayscale به uint8 تغییر یافته اند؛ به عبارتی، مقادیر قبلی سطوح خاکستری با این کار، به بازه (0, 255) گسترش یافتند که باعث بهبود کنتراست شد.
+تصویر نهایی ساخته شده نیز در شکل 9 آمده شده است:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{assets/plot8.png}
+	\caption{\textcolor{CustomAccent}{تصویر نهایی ساخته شده از زیرتصاویر}}
+\end{figure}
+
+
+
+
+
+
 
 
 
@@ -294,17 +415,50 @@ function distribution probability
 
 	\begin{figure}[ht]
 		\centering
-		\begin{minipage}[t]{0.48\textwidth}
+		\begin{minipage}[t]{0.32\textwidth}
 			\centering
 			\includegraphics[width=\linewidth]{assets/template.png}
 			\caption{\textcolor{CustomAccent}{another caption}}
 		\end{minipage}
 		\hfill
-		\begin{minipage}[t]{0.48\textwidth}
+		\begin{minipage}[t]{0.32\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{assets/template.png}
+			\caption{\textcolor{CustomAccent}{caption new}}
+		\end{minipage}
+		\vspace{1em}
+		\hfill
+		\begin{minipage}[t]{0.32\textwidth}
 			\centering
 			\includegraphics[width=\linewidth]{assets/template.png}
 			\caption{\textcolor{CustomAccent}{caption new}}
 		\end{minipage}
 		\vspace{1em}
 	\end{figure}
+	
+	
+	
+\clearpage
+\section*{منابع}
+\begin{LTR}
+	\begin{latin}
+		\begin{enumerate}[left=0pt,labelsep=5pt,itemsep=0pt,parsep=0pt,topsep=0pt]
+			\item Image Denoising Algorithms: A Comparative Study of Different Filtration Approaches Used in Image Restoration.  \url{https://ieeexplore.ieee.org/abstract/document/6524379/}
+			\item Digital Image Processing By Gonzalez 4th  \url{https://elibrary.pearson.de/book/99.150005/9781292223070}
+			\item Automatic identification of noise in ice images using statistical features \url{https://www.researchgate.net/figure/Simple-pattern-classifier-to-identify-noise-types-of-Gaussian-Speckle-and -Salt-Pepper_tbl1_258714501}
+			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
+			
+			
+			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
+			
+			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
+			
+			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
+			
+		\end{enumerate}
+	\end{latin}
+\end{LTR}
+
+
+
 \end{document}
