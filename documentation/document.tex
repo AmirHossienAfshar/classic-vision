@@ -275,26 +275,41 @@ function distribution probability
 %	\end{lstlisting}
 %\end{latin}
 %میتوان با انتخاب figsize بزرگتر، عملکرد هر کدام از فیلتر ها را به شکل واضح تری دید.
+\pagebreak
+\begin{itemize}
+\item 
+بخش دوم
+\end{itemize}
+
+برای این بخش باید تصویر 
+$processed\_img\_part\_2.jpg$
+اصلاح می شد. بدین منظور و در ابتدا برای تشخیص نویز، از انرژی و magnetude تصویر استفاده شد؛ زیرا تصویر کاملا پوشیده از نویز بود و پیش بینی نوع نویز را سخت می کرد. همچنین برای درک بهتر کلیت تصویر، با حذف فرکانس های بالا، یک تخمین از کلیت تصویر به دست آمده است. برای این منظور، پلات زیر رسم شده است:
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.60]{assets/plot9.png}
+	\caption{\textcolor{CustomAccent}{پیش بینی نوع نویز در تصویر دوم}}
+\end{figure}
+
+
+با دقت کردن به لگاریتم power در پلات (شکل شماره 5) متوجه یک حلقه می شویم که با الگوی سینوسی نویز در تصویر در حوزه مکان تطابق دارد. برای درک بهتر این نویز، به طور مستقل برای تصویر در حوزه فرکانس magnitude و phase رسم شده است که به شکل زیر است:
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{assets/plot10.png}
+	\caption{\textcolor{CustomAccent}{تصویر دوم در حوزه فرکانس}}
+\end{figure}
+
+که ایده اولیه را تایید می کند. بدین منظور، تنها و به سادگی با ساختن یک فیلتر band-reject در حوزه فرکانس، این مشکل حل شده و تصویر نهایی ساخته می شود.
 
 \pagebreak
+
+
+\begin{itemize}
+	\item 
+	بخش سوم
+\end{itemize}
 برای بخش سوم از پازل، باید تصویر اصلی را از 5 زیر تصویر reconstruct می کردیم. بدین منظور، تصاویر در ابتدا و در کنار یکدیگر plot شده اند:
-%
-%\begin{itemize}
-%	\begin{latin}
-%		\item 
-%		processed\_img\_part\_3\_Level\_0.jpg
-%		\item 
-%		processed\_img\_part\_3\_Level\_1.jpg
-%		\item 
-%		processed\_img\_part\_3\_Level\_2.jpg
-%		\item 
-%		processed\_img\_part\_3\_Level\_3.jpg
-%		\item 
-%		processed\_img\_part\_3\_Level\_4.jpg
-%	\end{latin}
-%	
-%	[(1796, 1201), (898, 601), (449, 301), (225, 151), (113, 76)]
-%\end{itemize}}
 
 \begin{figure}[h]
 	\centering
