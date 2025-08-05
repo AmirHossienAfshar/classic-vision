@@ -402,11 +402,83 @@ $processed\_img\_part\_2.jpg$
 \end{figure}
 
 
+\pagebreak
+\section{پروژه دوم: تصاویرنویزی/غیرنویزی}
+در این پروژه، هر دو روش یادگیری عمیق و بینایی ماشین کلاسیک پیاده سازی شده است. در ابتدا به تفصیل، روش یادگیری عمیق توضیح داده می شود:
+
+\section{یادگیری عمیق در پروژه دوم}
 
 
+در ابتدا، برای پیاده سازی سیستم تشخیص نویز ها، این نیاز دیده میشد که دیتاست های در اختیار قرار گرفته ، دیتاست های کوچکی هستند و برای روش های ml و یا dl مناسب نیستند. به گونه ای که حتی با augment کردن داده ها و پیاده سازی بر روی مدل های pre-trained و با fine tune کردن آنها نیز، کفایت نمیکرد.  بنابراین، با بررسی دیتاست های قرار داده شده کشاورزی که از نوع برگ درختان هستند، دیتاست های کاندیدا از وبسایت kaggle به شرح زیر هستند:
+\begin{enumerate}
+	\begin{LTR}
+		\begin{latin}
+			\item https://www.kaggle.com/datasets/ichhadhari/leaf-images
+			\item https://www.kaggle.com/datasets/mdwaquarazam/agricultural-crops-image-classification/data
+			\item https://www.kaggle.com/datasets/alexo98/leaf-detection
+		\end{latin}
+	\end{LTR}
+\end{enumerate}
 
+که طبق بررسی انجام شده، بهترین و مشابه ترین دیتاست، مربوط به دیتاست leaf-detection است. 
+دقت شود که این موضوع که دیتاست ها باید برای استفاده این پروژه به شکل کاملی شخصی سازی شوند (به عنوان مثال، نویز به تصاویر اضافه شود) کاملا واضح است و از ابتدا صرفا به دنبال دیتاست هایی صرفا با زمینه مرتبط بودم و سپس دیتاست ها را به شکل مناسبی برای استفاده از این پروژه شخصی سازی کردم. مجددا تاکید میشود که دیتاست انتخاب شده، صرفا انواع برگ های گوناگون بوده است و هیچ هدفی از نویز/دینویز کردن تصاویر در این دیتاست دنبال نشده است. 
 
+بررسی دیتاست آورده شده:
 
+با توجه به این که این دیتاست، صرفا شامل تصاویری از برگ های 10 نوع درخت هندی هستند، بدون توجه به لیبل های آن برگ ها، و صرفا با در نظر گرفتن همه آنها از یک نوع، (همگی را به شکل یکسان و «برگ» در نظر گرفتم) به آنها انواع گوناگونی از نویز ها پیاده سازی کردم. در ابتدا، نویزهای تکی، یعنی :
+
+سپس انواع نویز های دو تایی (تمامی جایگشت ها لحاظ نشده است؛ به علت محدودیت پردازشی گوگل کولب به 16 گیگ حافظه رم، بیش از این نوع نمیتوان جایگشت های مختلفی از نویز در نظر گرفت):
+
+\pagebreak
+
+\begin{table}[h]
+	\centering
+	\begin{latin}
+	\begin{tabular}{|c|c|l|}
+		\hline
+		\textbf{No.} & \textbf{Combinations} & \textbf{Noise Type} \\
+		\hline
+		1 & 1 & Gaussian \\
+		\hline
+		2 & 1 & Salt \& Pepper \\
+		\hline
+		3 & 1 & Poisson \\
+		\hline
+		4 & 1 & Speckle \\
+		\hline
+		5 & 1 & Uniform \\
+		\hline
+		6 & 2 & Gaussian + Salt \& Pepper \\
+		\hline
+		7 & 2 & Gaussian + Poisson \\
+		\hline
+		8 & 2 & Gaussian + Speckle \\
+		\hline
+		9 & 2 & Gaussian + Uniform \\
+		\hline
+		10 & 2 & Salt \& Pepper + Speckle \\
+		\hline
+		11 & 2 & Salt \& Pepper + Uniform \\
+		\hline
+		12 & 2 & Poisson + Speckle \\
+		\hline
+		13 & 2 & Poisson + Uniform \\
+		\hline
+		14 & 2 & Speckle + Uniform \\
+		\hline
+		15 & 3 & Gaussian + Salt \& Pepper + Speckle \\
+		\hline
+		16 & 3 & Gaussian + Poisson + Uniform \\
+		\hline
+		17 & 3 & Salt \& Pepper + Speckle + Uniform \\
+		\hline
+	\end{tabular}
+	\end{latin}
+	\caption{لیست انواع نویز های پیاده شده}
+\end{table}
+	
+
+\pagebreak
 
 
 
@@ -455,6 +527,7 @@ $processed\_img\_part\_2.jpg$
 	
 \clearpage
 \section*{منابع}
+
 \begin{LTR}
 	\begin{latin}
 		\begin{enumerate}[left=0pt,labelsep=5pt,itemsep=0pt,parsep=0pt,topsep=0pt]
@@ -464,10 +537,9 @@ $processed\_img\_part\_2.jpg$
 			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
 			
 			
+			% below are dummy
 			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
-			
 			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
-			
 			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
 			
 		\end{enumerate}
