@@ -151,6 +151,15 @@
 		\end{tabular}
 	\end{table}
 	
+	رپو های گیتهابی که پیاده سازی پروژه را انجام دادم:
+	\begin{latin}
+		\begin{itemize}
+			\item \href{https://github.com/AmirHossienAfshar/classic-vision}{https://github.com/AmirHossienAfshar/classic-vision}
+			
+			\item \href{https://github.com/AmirHossienAfshar/cv-noise-denoise}{https://github.com/AmirHossienAfshar/cv-noise-denoise}
+		\end{itemize}
+	\end{latin}
+	
 \hline
 %	\begin{figure}[h]
 	%		\centering
@@ -398,7 +407,57 @@ $processed\_img\_part\_2.jpg$
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{assets/plot8.png}
-	\caption{\textcolor{CustomAccent}{تصویر نهایی ساخته شده از زیرتصاویر}}
+	\caption{\textcolor{CustomAccent}{تصویر نهایی ساخته شده از زیرتصاویر بخش سوم}}
+\end{figure}
+
+
+در نهایت نیز به زیر تصویر چهارم میرسیم که به ظاهر رنگش به هم ریخته است. در ابتدا و در اولین گام، هیستوگرام رنگی تصویر تهیه شد:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{assets/1.1.png}
+	\caption{\textcolor{CustomAccent}{هیستوگرام تصویر برای سه کانال رنگی}}
+\end{figure}
+
+
+
+که به شکل واضحی تفاوت میان رنگ سبز و دو رنگ دیگر را نشان می دهد. همچنین برای درک بهتر تصویر، از حوزه HSV نیز استفاده شد:
+
+\pagebreak
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{assets/1.2.png}
+	\caption{\textcolor{CustomAccent}{HSV آنالیز}}
+\end{figure}
+
+که البته بیانگر بایاس خاصی نمی باشد و از این حوزه نمی توان اطلاعات خاصی استخراج کرد. 
+در نهایت، بر روی حوزه فرکانس نیز یک آنالیز کلی انجام دادم:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{assets/1.3.png}
+	\caption{\textcolor{CustomAccent}{حوزه فرکانس}}
+\end{figure}
+
+که خط عمودی در بزرگی فرکانس ها توجهم را جلب کرد. بدین منظور آن را حذف کردم و به چنین خروجی ای رسیدم:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{assets/1.5.png}
+	\caption{\textcolor{CustomAccent}{اصلاح تصویر در حوزه فرکانس}}
+\end{figure}
+که بخش متن را به شکل خیلی خوبی از زمینه جدا کرده و به همین خروجی بسنده کردم.
+در نهایت تصویر خروجی من به دست آمد  که آن را قرینه کردم تا به متن
+$
+the \, last \, supper \, 13
+$
+رسیدم که ظاهرا به نقاشی مسیح داوینچی اشاره دارد و شخص 13 ام نیز خود مسیح است!
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{assets/code.png}
+	\caption{\textcolor{CustomAccent}{تصویر نهایی}}
 \end{figure}
 
 
