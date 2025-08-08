@@ -827,9 +827,14 @@ $
 
 توضیحات در رابطه با پارامتر های این سه روش استخراج ویژگی خواسته شده، به شرح زیر هستند:
 \begin{enumerate}
-	\item SIFT:
+	\item SIFT
 	
-	\item ORB:
+	این متد را به تفصیل در اسلاید های درسی داشتیم و من از توضیح مجدد آن خودداری می کنم. تنها موردی که در آن وجود دارد پارامتر آن است که تنها پارامتری که تنظیم می شود، ماکسیمم تعداد فیچر آن است.
+	
+	\item ORB
+	
+	این روش را میتوان به شکل ترکیبی از هریس و سیفت دانست که از هریس دقیق تر است (هریس اصلا توصیفگری نداشت) و از سیفت نیز سریع تر است. در این روش در ابتدا کرنر ها پیدا میشوند با کمک یک متد به نام FAST و سپس جهت اصلی هر کرنر پیدا می شود و تفاوت اصلی اش با سیفت در این است که برای توصیف هر فیچر، از BRIEF استفاده می کند که خیلی کوتاه تر از توصیفگر سیفت است. 
+	تنها پارامتری که میتوان برای این قائل شد، همین ماکسیمم تعداد فیچر است.
 	
 	\item Harris corner detection
 	
@@ -926,71 +931,125 @@ RANSAC
 
 شایان ذکر است که در ابتدا قصد داشتم این عملیات را در دو حلقه و برای تک به تک فیچرپوینت های تک به تک فریم ها بدون پیاده سازی هیچ ساختار داده ای انجام دهم که هم خوانایی کمی داشت و هم عملیات تشخیص لندمارک را طولانی میکرد که از هدف پروژه برای مقایسه زمان تشخیص دهنده فیچر ها، دور بود و سپس این سبک را پیاده کردم.
 
+همچنین تابعی را پیاده کردم که به شکل دقیقی، دو تصویر متوالی را روی هم با استفاده از فیچر های مچ شده قرار میداد و همچنین آن نقاط مچ شده را نیز نمایش میداد:
+
+
+ \begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{assets/5.1.png}
+	\caption{\textcolor{CustomAccent}{قرار گرفتن دو تصویر متوالی به کمک سیفت}}
+\end{figure}
+
+
+مقایسه متد ها و همچنین نتیجه تیونینگ پارامتر ها نیز به شرح زیر است:
+\begin{itemize}
+	\item 
+	 مقایسه تعداد لندمارک ها: 
+	 
+	 دو متد سیفت و ORB هر دو در حدود 10هزار لندمارک را پیدا کرده بودند، در حالی که متد هریس نصف آنها یعنی 5هزار لندمارک را پیدا کرد که نشان می دهد هزیس به دلیل خاصیت ذاتی خود در توصیف نقاط دچار مشکل می شود. این عدد ها برای کل تصاویر ذکر شده اند.
+	\item 
+	بررسی تاثیر RANSAC نیز نتایج جالبی داشت. بدون استفاده از این فیلتر موقعیت مکانی، تعداد landmark ها در سیفت 18هزار، در orb نیز 15هزار و در هریس 6 هزار شد که بیان می کند که تاثیر فوق العاده ای در پیدا کردن و فیلتر کردن فیچرپوینت های نامطمئن (که حتی لندمارک نیز شده اند) را را خواهیم داشت.
+	
+	\item 
+	تاثیر پارامتر ماکسیمم فیچر در orb و سیفت:
+	در orb این پارامتر توسط مقدار built-in به میزان 500 واحد تنظیم میشد که در نتیجه، در صورتی که آن را تنظیم نمیکردم، این میزان تنظیم میشد. اما برای سیفت، در صورتی که این میزان را تنظیم نمیکردم، تعداد فیچر ها 3200 تا میشد (برای تک تصویر و نه کل تصاویر) و این یعنی به طور کلی در صورت عدم تیون کردن این پارامتر برای سیفت، ممکن است با فیچرپوینت هایی نه چندان قوی نیز رو به رو شویم. 
+	
+	\item 
+	تاثیر thresh\_rel در سیفت: 
+	برای هر کدام از مقادیر به ترتیب 1 هزارم، 5 هزارم و 1 صدم، مقادیر 491 و 965 و 1934 تا فیچر (به ازای یک تصویر) استخراج شد که قابل پیش بینی نیز می باشد و کاملا منطقیست که تعداد فیچر ها به ازای ترشولد سختگیرانه تر، کمتر شود.
+	
+	\item 
+	میزان زمان استفاده شده برای پیدا کردن کل فیچر ها و کل عملیات در سه روش در جدول 8 قابل مشاهده است:
+	
+	\begin{table}[h!]
+		\centering
+		\begin{latin}
+
+		\begin{tabular}{|l|r|r|r|r|r|r|r|}
+			\hline
+			\textbf{Method} & \textbf{Detection} & \textbf{Matching} & \textbf{Total} & \textbf{Per Frame Avg} & \textbf{Avg Candidates} & \textbf{Landmarks} \\ \hline
+			SIFT   & 13853.8 & 5006.4 & 18860.1 & 69.3 & 2540 & 10410 \\ \hline
+			ORB    & 1819.8  & 2788.6 & 4608.4  & 9.1  & 2000 & 10362 \\ \hline
+			HARRIS & 2268.9  & 2292.3 & 4561.2  & 11.3 & 1869 & 5618  \\ \hline
+		\end{tabular}
+		\end{latin}
+		\caption{مقایسه زمان مصرف شده در سه روش: زمان ها بر حسب میلی ثانیه}
+	\end{table}
+	
+	که نشان می دهد که orb در حالت معمول بسیار سریع تر از سیفت عمل میکند. همچنین سریع بودن هریس نیز به دلیل تیون کردن پارامتر ها و اعمال محدودیت بر روی تعداد نقاط انجام شده است.
+	
+\end{itemize}
+
+
+در نهایت، میان دو فریم تابع پلات را برای نمایش نحوه match شدن میان فیچر ها را نیز پلات کرده ام.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{assets/5.2.png}
+	\caption{\textcolor{CustomAccent}{نمایشی از مچ شدن فیچر ها میان دو فریم}}
+\end{figure}
 
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\pagebreak
-	
-	در ابتدا، به کمک کتابخانه 
-	$cv2$
-	تابع زیر را برای دریافت فیچرها تکمیل کردیم. 
-	
-	\begin{latin}
-		\begin{lstlisting}[language=Python, caption={extract feature function}]
-			def extract_features(image_path)
-			# input is an image and the ouput is an array of features.
-		\end{lstlisting}
-	\end{latin}
-	
-	
 
+\pagebreak
 
-	\begin{figure}[ht]
-		\centering
-		\begin{minipage}[t]{0.32\textwidth}
-			\centering
-			\includegraphics[width=\linewidth]{assets/template.png}
-			\caption{\textcolor{CustomAccent}{another caption}}
-		\end{minipage}
-		\hfill
-		\begin{minipage}[t]{0.32\textwidth}
-			\centering
-			\includegraphics[width=\linewidth]{assets/template.png}
-			\caption{\textcolor{CustomAccent}{caption new}}
-		\end{minipage}
-		\vspace{1em}
-		\hfill
-		\begin{minipage}[t]{0.32\textwidth}
-			\centering
-			\includegraphics[width=\linewidth]{assets/template.png}
-			\caption{\textcolor{CustomAccent}{caption new}}
-		\end{minipage}
-		\vspace{1em}
-	\end{figure}
-	
+%	\begin{figure}[ht]
+%		\centering
+%		\begin{minipage}[t]{0.32\textwidth}
+%			\centering
+%			\includegraphics[width=\linewidth]{assets/template.png}
+%			\caption{\textcolor{CustomAccent}{another caption}}
+%		\end{minipage}
+%		\hfill
+%		\begin{minipage}[t]{0.32\textwidth}
+%			\centering
+%			\includegraphics[width=\linewidth]{assets/template.png}
+%			\caption{\textcolor{CustomAccent}{caption new}}
+%		\end{minipage}
+%		\vspace{1em}
+%		\hfill
+%		\begin{minipage}[t]{0.32\textwidth}
+%			\centering
+%			\includegraphics[width=\linewidth]{assets/template.png}
+%			\caption{\textcolor{CustomAccent}{caption new}}
+%		\end{minipage}
+%		\vspace{1em}
+%	\end{figure}
+%	
 	
 	
 \clearpage
 \section*{منابع}
 
+%\begin{LTR}
+%	\begin{latin}
+%		\begin{enumerate}[left=0pt,labelsep=5pt,itemsep=0pt,parsep=0pt,topsep=0pt]
+%			\item Image Denoising Algorithms: A Comparative Study of Different Filtration Approaches Used in Image Restoration.  \url{https://ieeexplore.ieee.org/abstract/document/6524379/}
+%			\item Digital Image Processing By Gonzalez 4th  \url{https://elibrary.pearson.de/book/99.150005/9781292223070}
+%			\item Automatic identification of noise in ice images using statistical features \url{https://www.researchgate.net/figure/Simple-pattern-classifier-to-identify-noise-types-of-Gaussian-Speckle-and -Salt-Pepper_tbl1_258714501}
+%			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners
+%				-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
+%
+%		\end{enumerate}
+%	\end{latin}
+%\end{LTR}
+
 \begin{LTR}
 	\begin{latin}
 		\begin{enumerate}[left=0pt,labelsep=5pt,itemsep=0pt,parsep=0pt,topsep=0pt]
-			\item Image Denoising Algorithms: A Comparative Study of Different Filtration Approaches Used in Image Restoration.  \url{https://ieeexplore.ieee.org/abstract/document/6524379/}
-			\item Digital Image Processing By Gonzalez 4th  \url{https://elibrary.pearson.de/book/99.150005/9781292223070}
-			\item Automatic identification of noise in ice images using statistical features \url{https://www.researchgate.net/figure/Simple-pattern-classifier-to-identify-noise-types-of-Gaussian-Speckle-and -Salt-Pepper_tbl1_258714501}
-			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
-			
-			
-			% below are dummy
-			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
-			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
-			\item medium: A Beginners Guide to Computer Vision (Part 4)- Pyramid \url{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}
-			
+			\item \href{https://ieeexplore.ieee.org/abstract/document/6524379/}{Image Denoising Algorithms: A Comparative Study of Different Filtration Approaches Used in Image Restoration}
+			\item \href{https://elibrary.pearson.de/book/99.150005/9781292223070}{Digital Image Processing By Gonzalez, 4th Edition}
+			\item \href{https://www.researchgate.net/figure/Simple-pattern-classifier-to-identify-noise-types-of-Gaussian-Speckle-and-Salt-Pepper_tbl1_258714501}{Automatic Identification of Noise in Ice Images Using Statistical Features}
+			\item \href{https://medium.com/analytics-vidhya/a-beginners-guide-to-computer-vision-part-4-pyramid-3640edeffb00}{Medium: A Beginner's Guide to Computer Vision (Part 4) - Pyramid}
+					\item \href{https://www.cs.ubc.ca/~lowe/papers/iccv99.pdf}{Object Recognition from Local Scale-Invariant Features}
+					\item \href{https://www.geeksforgeeks.org/machine-learning/feature-matching-using-brute-force-in-opencv/}{Feature Matching using Brute Force in OpenCV}
+					\item \href{https://medium.com/analytics-vidhya/finding-waldo-using-a-simple-convolutional-neural-network-1604cb4d2e55}{Finding “Waldo” using a simple Convolutional Neural Network}
+					\item \href{https://arxiv.org/html/2506.15218v1}{DM-FNet: Unified multimodal medical image fusion via diffusion process-trained encoder-decoder}
+							\item \href{https://ieeexplore.ieee.org/document/1095851}{The Laplacian Pyramid as a Compact Image Code}
 		\end{enumerate}
 	\end{latin}
 \end{LTR}
-
 
 
 \end{document}
